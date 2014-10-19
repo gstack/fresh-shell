@@ -28,6 +28,7 @@
       'atom/browser/api/lib/protocol.coffee',
       'atom/browser/api/lib/tray.coffee',
       'atom/browser/api/lib/web-contents.coffee',
+	  'atom/browser/api/lib/input-injector.coffee',
       'atom/browser/lib/chrome-extension.coffee',
       'atom/browser/lib/init.coffee',
       'atom/browser/lib/objects-registry.coffee',
@@ -78,6 +79,8 @@
       'atom/browser/api/atom_api_web_contents.h',
       'atom/browser/api/atom_api_window.cc',
       'atom/browser/api/atom_api_window.h',
+	  'atom/browser/api/atom_api_input_injector.cc',
+      'atom/browser/api/atom_api_input_injector.h',
       'atom/browser/api/event.cc',
       'atom/browser/api/event.h',
       'atom/browser/api/event_emitter.cc',
@@ -313,6 +316,15 @@
       'chromium_src/chrome/renderer/tts_dispatcher.cc',
       'chromium_src/chrome/renderer/tts_dispatcher.h',
       'chromium_src/library_loaders/libspeechd_loader.cc',
+	  
+	  'extensions/usb_keycode_map.h',
+	  'extensions/gen/event.pb.cc',
+	  'extensions/gen/event.pb.h',
+	  'extensions/input_stub.h',
+	  'extensions/input_injector.h',
+	  'extensions/input_injector_mac.cc',
+	  'extensions/input_injector_win.cc',
+	  
       '<@(native_mate_files)',
     ],
     'framework_sources': [
@@ -370,6 +382,7 @@
       ],
       'include_dirs': [
         '.',
+		'./extensions/'
       ],
       'conditions': [
         ['OS=="mac"', {
