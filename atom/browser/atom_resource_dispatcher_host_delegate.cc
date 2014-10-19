@@ -35,16 +35,26 @@ void AtomResourceDispatcherHostDelegate::OnResponseStarted(
   int p, f;
   if (!content::ResourceRequestInfo::GetRenderFrameForRequest(request, &p, &f))
     return;
+	
   content::RenderFrameHost* frame = content::RenderFrameHost::FromID(p, f);
-  if (!frame)
-    return;
-  if (frame->GetFrameName().find(kDisableXFrameOptions) == std::string::npos)
+  content::RenderFrameHost* parent = 0;
+  
+  if (!frame && !parent)
     return;
 
-  // Remove the "X-Frame-Options" from response headers.
-  net::HttpResponseHeaders* response_headers = request->response_headers();
-  if (response_headers && response_headers->HasHeader("x-frame-options"))
-    response_headers->RemoveHeader("x-frame-options");
+  parent = frame->GetParent();
+
+  bool should = false;
+  if (frame && frame->GetFrameName().find(kDisableXFrameOptions) != std::string::npos) should = true;
+  if (parent && parent->GetFrameName().find(kDisableXFrameOptions) != std::string::npos) should = true;
+
+  if (should)
+  {
+	  // Remove the "X-Frame-Options" from response headers.
+	  net::HttpResponseHeaders* response_headers = request->response_headers();
+	  if (response_headers && response_headers->HasHeader("x-frame-options"))
+		response_headers->RemoveHeader("x-frame-options");
+  }
 }
 
 }  // namespace atom
