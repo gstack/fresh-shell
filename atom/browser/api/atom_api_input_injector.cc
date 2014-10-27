@@ -5,6 +5,15 @@
 #include "atom/browser/api/atom_api_input_injector.h"
 
 #include "atom/common/node_includes.h"
+
+#undef CHECK_GE
+#undef CHECK_EQ
+#undef CHECK_LE
+#undef CHECK_NE
+#undef CHECK_LT
+#undef CHECK_GT
+#undef CHECK
+
 #include "content/public/browser/browser_thread.h"
 
 #include "base/values.h"
@@ -31,7 +40,7 @@ AtomInputInjector::~AtomInputInjector() {
 
 void AtomInputInjector::SimulateMouseEvent(int x, int y)
 {
-  
+
   nwapi::protocol::MouseEvent event;
   event.set_x(x);
   event.set_y(y);
@@ -119,7 +128,7 @@ void Initialize(v8::Handle<v8::Object> exports, v8::Handle<v8::Value> unused,
   v8::Isolate* isolate = context->GetIsolate();
   mate::Handle<AtomInputInjector> input_injector = AtomInputInjector::Create(isolate);
   mate::Dictionary dict(isolate, exports);
-  
+
   dict.Set("inputInjector", input_injector);
 }
 

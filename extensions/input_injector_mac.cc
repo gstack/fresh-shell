@@ -18,8 +18,9 @@
 #include "skia/ext/skia_utils_mac.h"
 #include "third_party/skia/include/core/SkPoint.h"
 #include "third_party/skia/include/core/SkRect.h"
-#include "third_party/webrtc/modules/desktop_capture/desktop_geometry.h"
-#include "third_party/webrtc/modules/desktop_capture/mac/desktop_configuration.h"
+
+#include "extensions/webrtc/desktop_geometry.h"
+#include "extensions/webrtc/mac/desktop_configuration.h"
 
 namespace nwapi {
 
@@ -33,12 +34,13 @@ using protocol::MouseEvent;
 #include "extensions/usb_keycode_map.h"
 #undef USB_KEYMAP
 
+/*
 // skia/ext/skia_utils_mac.h only defines CGRectToSkRect().
 SkIRect CGRectToSkIRect(const CGRect& rect) {
   SkIRect result;
   gfx::CGRectToSkRect(rect).round(&result);
   return result;
-}
+}*/
 
 // A class to generate events on Mac.
 class InputInjectorMac : public InputInjector {
@@ -88,7 +90,7 @@ class InputInjectorMac : public InputInjector {
 };
 
 InputInjectorMac::InputInjectorMac() {
-  core_ = new Core(task_runner);
+  core_ = new Core();
 }
 
 InputInjectorMac::~InputInjectorMac() {
@@ -114,9 +116,8 @@ void InputInjectorMac::InjectMouseEvent(const MouseEvent& event) {
   core_->InjectMouseEvent(event);
 }
 
-InputInjectorMac::Core::Core(
-    : task_runner_(task_runner),
-      mouse_button_state_(0) {
+InputInjectorMac::Core::Core()
+    : mouse_button_state_(0) {
   // Ensure that local hardware events are not suppressed after injecting
   // input events.  This allows LocalInputMonitor to detect if the local mouse
   // is being moved whilst a remote user is connected.

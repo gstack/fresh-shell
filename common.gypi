@@ -33,6 +33,10 @@
     'uv_parent_path': 'vendor/node/deps/uv',
     'uv_use_dtrace': 'false',
     'v8_postmortem_support': 'false',
+    'use_system_protobuf': '0',
+    'os_posix': '0', #change
+    'use_x11': '0', #chagne
+    'chromeos': '0',
     # Required by Linux (empty for now, should support it in future).
     'sysroot': '',
   },
@@ -216,6 +220,7 @@
     # The breakdpad on Mac assumes Release_Base configuration.
     ['OS=="mac"', {
       'target_defaults': {
+	     'cflags!': ['-Werror'],
         'configurations': {
           'Release_Base': {
           },

@@ -13,6 +13,7 @@
     'bundle_sources': [
       'atom/browser/resources/mac/atom.icns',
     ],
+
     'coffee_sources': [
       'atom/browser/api/lib/app.coffee',
       'atom/browser/api/lib/atom-delegate.coffee',
@@ -79,7 +80,7 @@
       'atom/browser/api/atom_api_web_contents.h',
       'atom/browser/api/atom_api_window.cc',
       'atom/browser/api/atom_api_window.h',
-	  'atom/browser/api/atom_api_input_injector.cc',
+	    'atom/browser/api/atom_api_input_injector.cc',
       'atom/browser/api/atom_api_input_injector.h',
       'atom/browser/api/event.cc',
       'atom/browser/api/event.h',
@@ -316,7 +317,37 @@
       'chromium_src/chrome/renderer/tts_dispatcher.cc',
       'chromium_src/chrome/renderer/tts_dispatcher.h',
       'chromium_src/library_loaders/libspeechd_loader.cc',
-	  
+
+    'extensions/webrtc/atomic32.h',
+    'extensions/webrtc/common_types.h',
+    'extensions/webrtc/typedefs.h',
+    'extensions/webrtc/constructor_magic.h',
+    'extensions/webrtc/critical_section_wrapper.h',
+    'extensions/webrtc/desktop_geometry.h',
+    'extensions/webrtc/desktop_geometry.cc',
+    'extensions/webrtc/event_posix.cc',
+    'extensions/webrtc/event_posix.h',
+    'extensions/webrtc/event_win.cc',
+    'extensions/webrtc/event_win.h',
+    'extensions/webrtc/event_wrapper.h',
+    'extensions/webrtc/thread_wrapper.h',
+    'extensions/webrtc/rtc_event.cc',
+    'extensions/webrtc/set_thread_name_win.h',
+    'extensions/webrtc/sleep.h',
+    'extensions/webrtc/thread_annotations.h',
+    'extensions/webrtc/thread_posix.h',
+    'extensions/webrtc/thread_posix.cc',
+    'extensions/webrtc/thread_win.h',
+    'extensions/webrtc/thread_win.cc',
+    'extensions/webrtc/thread.cc',
+
+    'extensions/webrtc/mac/desktop_configuration_monitor.h',
+    'extensions/webrtc/mac/desktop_configuration_monitor.cc',
+
+
+    'extensions/webrtc/mac/desktop_configuration.h',
+    'extensions/webrtc/mac/desktop_configuration.mm',
+
 	  'extensions/usb_keycode_map.h',
 	  'extensions/gen/event.pb.cc',
 	  'extensions/gen/event.pb.h',
@@ -324,7 +355,7 @@
 	  'extensions/input_injector.h',
 	  'extensions/input_injector_mac.cc',
 	  'extensions/input_injector_win.cc',
-	  
+
       '<@(native_mate_files)',
     ],
     'framework_sources': [
@@ -382,7 +413,8 @@
       ],
       'include_dirs': [
         '.',
-		'./extensions/'
+        './',
+		    './extensions/'
       ],
       'conditions': [
         ['OS=="mac"', {
@@ -401,6 +433,7 @@
               '@executable_path/../Frameworks',
             ],
           },
+
           'mac_bundle_resources': [
             '<@(bundle_sources)',
           ],
@@ -561,8 +594,17 @@
           ],
         }],  # OS=="win"
         ['OS=="mac"', {
+
           'dependencies': [
             'vendor/breakpad/breakpad.gyp:breakpad',
+          #  'third_party/webrtc/modules/modules.gyp:desktop_capture',
+          ],
+          'defines': [
+            'WEBRTC_MAC',
+            'WEBRTC_CLOCK_TYPE_REALTIME'
+          ],
+          'cflags!': [
+            '-Werror'
           ],
         }],  # OS=="mac"
         ['OS=="linux"', {
